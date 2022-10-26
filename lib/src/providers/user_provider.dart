@@ -1,0 +1,53 @@
+import 'dart:convert';
+import 'package:get/get_connect.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:pay_lunch/src/environment/environment.dart';
+import 'package:pay_lunch/src/models/response_api.dart';
+import 'package:pay_lunch/src/models/user.dart';
+
+class UserProvider extends GetConnect {
+
+  String url = Environment.API_URL + 'api/users';
+  User userSession = User.fromJson(GetStorage().read('user') ?? {});
+
+  Future<ResponsiveApi> login(String email, String password) async {
+    Response response = await post(
+      '$url/login',
+      {
+        'email': email,
+        'password': password
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    );
+    if (response.body == null) {
+      Get.snackbar('Error', 'No se pudo ejecutar la petición');
+      return ResponsiveApi();
+    }
+    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
+    return responsiveApi;
+  }
+
+  Future<ResponsiveApi> update(User user) async{
+    Response response = await put(
+      '$url/update',
+      user.toJson(),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': userSession.sessionToken ?? ''
+      }
+    );
+    if (response.body == null) {
+      Get.snackbar('Error', 'No se pudo actualizar la información');
+      return ResponsiveApi();
+    }
+    if (response.statusCode == 401) {
+      Get.snackbar('Error', 'No estas autorizado para realizar esta petición');
+      return ResponsiveApi();
+    }
+    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
+    return responsiveApi;
+  }
+}
