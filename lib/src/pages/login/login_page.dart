@@ -76,7 +76,7 @@ class LoginPages extends StatelessWidget {
                         ),
                         child: Padding(
                           padding:  EdgeInsets.all(9.0),
-                          child: Image.asset('assets/img/logo2.png',),
+                          child: Image.asset('assets/img/logo2.png'),
                         )
                     ),
                   ),

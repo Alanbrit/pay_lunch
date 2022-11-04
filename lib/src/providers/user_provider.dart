@@ -50,4 +50,21 @@ class UserProvider extends GetConnect {
     ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
     return responsiveApi;
   }
+
+  Future<List<User>> findBySchool(String id_escuela) async {
+    Response response = await get(
+        '$url/findBySchool/$id_escuela',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    );
+    if (response.statusCode == 401) {
+      Get.snackbar('Peticion denegada', 'Tu usuario no tiene los permisos requeridos');
+      return [];
+    }
+
+    List<User> user = User.fromJsonList(response.body);
+    return user;
+  }
 }
