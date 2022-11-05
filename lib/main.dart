@@ -6,6 +6,7 @@ import 'package:pay_lunch/src/pages/home/home_page.dart';
 import 'package:pay_lunch/src/pages/login/login_page.dart';
 import 'package:pay_lunch/src/pages/user/profile/info/user_profile_info_page.dart';
 import 'package:pay_lunch/src/pages/user/profile/update/user_profile_update_page.dart';
+import 'package:pay_lunch/src/pages/user/messages/user_messages_page.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/user/profile/info', page: () => UserProfileInfoPage()),
         GetPage(name: '/user/profile/update', page: () => UserProfileUpdatePage()),
+        GetPage(name: '/messages', page: () => MessagesPage()),
       ],
       theme: ThemeData(
         primaryColor: Colors.lightBlue[900],

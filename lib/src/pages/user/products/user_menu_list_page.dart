@@ -12,6 +12,18 @@ class UserMenuListPage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Menú semanal',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.white
+          ),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.lightBlue[900],
+      ),
       body: Stack(
         children: [
           _listMenu(context)

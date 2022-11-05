@@ -15,5 +15,11 @@ class UserMensajeListController extends GetxController{
     return user;
   }
 
+  void goToChat(User user){
+    Get.toNamed('/messages', arguments: {
+      'user': user.toJson()
+    });
+  }
+
 
 }

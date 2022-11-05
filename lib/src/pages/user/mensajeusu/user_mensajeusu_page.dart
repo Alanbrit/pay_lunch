@@ -12,7 +12,14 @@ class UserMensajeListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de usuarios'),
+        title: Text(
+            'Lista de administradores',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.white
+          ),
+        ),
         automaticallyImplyLeading: false,
         backgroundColor: Colors.lightBlue[900],
       ),
@@ -42,11 +49,23 @@ class UserMensajeListPage extends StatelessWidget {
     );
   }
 
+
   Widget cardUser(User user) {
     return ListTile(
+      onTap: () => con.goToChat(user),
       title: Text(user.name ?? ''),
       subtitle: Text(user.email ?? ''),
-      leading: Image.asset('assets/img/img.png'),
+      leading: Container(
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: FadeInImage.assetNetwork(
+              fit: BoxFit.cover,
+              placeholder: 'assets/img/user_profile_2.png',
+              image: 'https://bysperfeccionoral.com/wp-content/uploads/2020/01/136-1366211_group-of-10-guys-login-user-icon-png.jpg'
+          ),
+        ),
+      ),
     );
   }
 
