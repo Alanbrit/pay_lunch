@@ -12,9 +12,9 @@ class MenuProvider extends GetConnect{
   String url = Environment.API_URL + 'api/menus';
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
-  Future<List<Menu>> findBySchool(String id_escuela) async {
+  Future<List<Menu>> findBySchool() async {
     Response response = await get(
-        '$url/findBySchool/$id_escuela',
+        '$url/findBySchool/${userSession.idEscuela}',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': userSession.sessionToken ?? ''

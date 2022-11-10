@@ -8,11 +8,14 @@ class UserMensajeListController extends GetxController{
   UserProvider userProvider = UserProvider();
   User user1 = User.fromJson(GetStorage().read('user') ?? {});
 
-
-
   Future<List<User>> getUsers() async {
-    user = await userProvider.findBySchool(user1.idEscuela ?? '');
-    return user;
+      if(user1.rol == "admin"){
+        user = await userProvider.findBySchool1(user1.idEscuela ?? '');
+        return user;
+      }else{
+        user = await userProvider.findBySchool(user1.idEscuela ?? '');
+        return user;
+      }
   }
 
   void goToChat(User user){

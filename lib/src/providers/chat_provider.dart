@@ -6,38 +6,21 @@ import 'package:pay_lunch/src/environment/environment.dart';
 import 'package:pay_lunch/src/models/response_api.dart';
 import 'package:pay_lunch/src/models/user.dart';
 
-class UserProvider extends GetConnect {
+import '../models/chat.dart';
 
-  String url = Environment.API_URL + 'api/users';
+class ChatProvider extends GetConnect {
+
+  String url = Environment.API_URL + 'api/chats';
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
-  Future<ResponsiveApi> login(String email, String password) async {
+  Future<ResponsiveApi> create(Chat chat) async{
     Response response = await post(
-      '$url/login',
-      {
-        'email': email,
-        'password': password
-      },
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    );
-    if (response.body == null) {
-      Get.snackbar('Error', 'No se pudo ejecutar la petición');
-      return ResponsiveApi();
-    }
-    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
-    return responsiveApi;
-  }
-
-  Future<ResponsiveApi> update(User user) async{
-    Response response = await put(
-      '$url/update',
-      user.toJson(),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': userSession.sessionToken ?? ''
-      }
+        '$url/create',
+        chat.toJson(),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
     );
     if (response.body == null) {
       Get.snackbar('Error', 'No se pudo actualizar la información');
@@ -51,9 +34,9 @@ class UserProvider extends GetConnect {
     return responsiveApi;
   }
 
-  Future<List<User>> findBySchool(String id_escuela) async {
+  Future<List<Chat>> findById(String id_user1, String id_user2, String id_user3, String id_user4) async {
     Response response = await get(
-        '$url/findBySchool/$id_escuela',
+        '$url/findById/$id_user1/$id_user2/$id_user3/$id_user4',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': userSession.sessionToken ?? ''
@@ -64,24 +47,28 @@ class UserProvider extends GetConnect {
       return [];
     }
 
-    List<User> user = User.fromJsonList(response.body);
-    return user;
+    List<Chat> chat = Chat.fromJsonList(response.body);
+    return chat;
   }
 
-  Future<List<User>> findBySchool1(String id_escuela) async {
-    Response response = await get(
-        '$url/findBySchool1/$id_escuela',
+  Future<ResponsiveApi> update(Chat chat) async{
+    Response response = await put(
+        '$url/update',
+        chat.toJson(),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': userSession.sessionToken ?? ''
         }
     );
-    if (response.statusCode == 401) {
-      Get.snackbar('Peticion denegada', 'Tu usuario no tiene los permisos requeridos');
-      return [];
+    if (response.body == null) {
+      Get.snackbar('Error', 'No se pudo actualizar la información');
+      return ResponsiveApi();
     }
-
-    List<User> user = User.fromJsonList(response.body);
-    return user;
+    if (response.statusCode == 401) {
+      Get.snackbar('Error', 'No estas autorizado para realizar esta petición');
+      return ResponsiveApi();
+    }
+    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
+    return responsiveApi;
   }
 }

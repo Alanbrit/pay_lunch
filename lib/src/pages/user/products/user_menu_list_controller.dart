@@ -12,8 +12,7 @@ class UserMenuListController extends GetxController{
 
 
   Future<List<Menu>> getMenus() async {
-    menu = await menuProvider.findBySchool(user.idEscuela ?? '');
-    return menu;
+    return await menuProvider.findBySchool();
   }
 
 

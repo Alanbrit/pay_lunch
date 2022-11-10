@@ -12,9 +12,9 @@ class MessagesPage extends StatelessWidget {
       backgroundColor: Color.fromRGBO(245, 246, 248, 1),
       body: Column(
         children: [
-          customAppBar(),
+          customAppBar(context),
           Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 margin: EdgeInsets.only(bottom: 30),
                 child: ListView(
@@ -58,7 +58,7 @@ class MessagesPage extends StatelessWidget {
     );
   }
 
-  Widget customAppBar() {
+  Widget customAppBar(BuildContext context) {
     return SafeArea(
       child: ListTile(
         title: Text(
@@ -76,7 +76,9 @@ class MessagesPage extends StatelessWidget {
           ),
         ),
         leading: IconButton(
-          onPressed: () => Get.back(),
+          onPressed: (){
+            Navigator.pop(context);
+          },
           icon: Icon(Icons.arrow_back_ios),
         ),
         trailing: Container(
