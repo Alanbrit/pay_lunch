@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pay_lunch/src/pages/user/messages/user_messages_controller.dart';
+import 'package:pay_lunch/src/models/mensaje.dart';
+import 'package:pay_lunch/src/utils/relative_time_util.dart';
+import '../../../utils/bubble.dart';
 
 class MessagesPage extends StatelessWidget {
 
@@ -10,21 +13,43 @@ class MessagesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 246, 248, 1),
-      body: Column(
-        children: [
-          customAppBar(context),
-          Expanded(
-              flex: 2,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 30),
-                child: ListView(
-                  children: [],
-                ),
-              )
-          ),
-          messagesBox(context)
-        ],
+      body: Obx( () =>
+        Column(
+          children: [
+            customAppBar(context),
+            Expanded(
+                flex: 2,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: ListView(
+                    children: getMensajes(),
+                  ),
+                )
+            ),
+            messagesBox(context)
+          ],
+        ),
       ),
+    );
+  }
+
+  List<Widget> getMensajes() {
+    return con.mensajes.map((mensaje) {
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        alignment: mensaje.idEmisor == con.myUser.id ? Alignment.centerRight : Alignment.centerLeft,
+        child: bubbleMensaje(mensaje),
+      );
+    }).toList();
+  }
+
+  Widget bubbleMensaje(Mensaje mensaje){
+    return Bubble(
+      message: mensaje.contenido ?? '',
+      delivered: true,
+      isMe: mensaje.idEmisor == con.myUser.id ? true: false,
+      status: mensaje.status ?? 'ENVIADO',
+      time: RelativeTimeUtil.getRelativeTime(mensaje.timestamp ?? 0),
     );
   }
 
@@ -38,6 +63,7 @@ class MessagesPage extends StatelessWidget {
           Expanded(
               flex: 10,
               child: TextField(
+                controller: con.mensajeController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -49,7 +75,7 @@ class MessagesPage extends StatelessWidget {
           Expanded(
               flex: 2,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () => con.sendMensaje(),
                 icon: Icon(Icons.send),
               )
           )
