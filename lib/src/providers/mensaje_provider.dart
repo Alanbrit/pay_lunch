@@ -49,4 +49,26 @@ class MensajeProvider extends GetConnect {
     List<Mensaje> mensaje = Mensaje.fromJsonList(response.body);
     return mensaje;
   }
+  Future<ResponsiveApi> updateToSeen(String idMensaje) async{
+    Response response = await put(
+        '$url/updateToSeen',
+        {
+          'id': idMensaje
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': userSession.sessionToken ?? ''
+        }
+    );
+    if (response.body == null) {
+      Get.snackbar('Error', 'No se pudo actualizar la información');
+      return ResponsiveApi();
+    }
+    if (response.statusCode == 401) {
+      Get.snackbar('Error', 'No estas autorizado para realizar esta petición');
+      return ResponsiveApi();
+    }
+    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
+    return responsiveApi;
+  }
 }

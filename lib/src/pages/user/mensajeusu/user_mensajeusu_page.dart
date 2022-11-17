@@ -13,7 +13,7 @@ class UserMensajeListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'Lista de administradores',
+            'Lista de usuarios',
           style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

@@ -14,6 +14,7 @@ import '../../../providers/chat_provider.dart';
 
 class MessagesController extends GetxController{
   TextEditingController mensajeController = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   List<Chat> chat = [];
   String idChat = '';
@@ -33,8 +34,20 @@ class MessagesController extends GetxController{
     });
   }
 
+  void listenMensajeSeen(){
+    homeController.socket.on('seen/$idChat', (data) {
+      print('DATA EMITIDA $data');
+      getMensajes();
+    });
+  }
+
   void emitMensaje(){
     homeController.socket.emit('message', {
+      'id_chat': idChat
+    });
+  }
+  void emitMensajeSeen(){
+    homeController.socket.emit('seen', {
       'id_chat': idChat
     });
   }
@@ -54,6 +67,7 @@ class MessagesController extends GetxController{
       idChat = jsonChat1[0]['id'];
       getMensajes();
       listenMensaje();
+      listenMensajeSeen();
     }
   }
 
@@ -61,6 +75,17 @@ class MessagesController extends GetxController{
     var result = await mensajeProvider.findByChat(idChat);
     mensajes.clear();
     mensajes.addAll(result);
+
+    mensajes.forEach((m) async {
+      if(m.status != 'VISTO' && m.idReceptor == myUser.id){
+        await mensajeProvider.updateToSeen(m.id!);
+        emitMensajeSeen();
+      }
+    });
+
+    Future.delayed(Duration(milliseconds: 100), (){
+      scrollController.jumpTo(scrollController.position.minScrollExtent);
+    });
   }
 
   MessagesController(){
@@ -98,5 +123,14 @@ class MessagesController extends GetxController{
       mensajeController.text = '';
       emitMensaje();
     }
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    scrollController.dispose();
+    homeController.socket.off('message/$idChat');
+    homeController.socket.off('seen/$idChat');
   }
 }

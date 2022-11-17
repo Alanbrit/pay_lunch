@@ -40,14 +40,14 @@ class HomePage extends StatelessWidget {
       onItemSelected: (index) => con.changeTab(index),
       items: [
         BottomNavyBarItem(
-          icon: Icon(Icons.apps),
-          title: Text('Home'),
+          icon: Icon(Icons.message),
+          title: Text('Mensaje'),
           activeColor: Colors.white,
           inactiveColor: Colors.black87
         ),
         BottomNavyBarItem(
-            icon: Icon(Icons.message),
-            title: Text('Mensajes'),
+            icon: Icon(Icons.contact_page),
+            title: Text('Usuarios'),
             activeColor: Colors.white,
             inactiveColor: Colors.black87
         ),

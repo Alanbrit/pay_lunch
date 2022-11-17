@@ -18,10 +18,12 @@ class MessagesPage extends StatelessWidget {
           children: [
             customAppBar(context),
             Expanded(
-                flex: 2,
+                flex: 1,
                 child: Container(
                   margin: EdgeInsets.only(bottom: 30),
                   child: ListView(
+                    reverse: true,
+                    controller: con.scrollController,
                     children: getMensajes(),
                   ),
                 )
