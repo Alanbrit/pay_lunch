@@ -98,7 +98,7 @@ class MessagesPage extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          'Desconectado',
+          '',
           style: TextStyle(
             color: Colors.grey
           ),

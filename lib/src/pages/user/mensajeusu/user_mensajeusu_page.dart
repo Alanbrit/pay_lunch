@@ -53,7 +53,7 @@ class UserMensajeListPage extends StatelessWidget {
   Widget cardUser(User user) {
     return ListTile(
       onTap: () => con.goToChat(user),
-      title: Text(user.name ?? ''),
+      title: Text('${user.name ?? ''} ${user.apellidos ?? ''}'),
       subtitle: Text(user.email ?? ''),
       leading: Container(
         margin: EdgeInsets.symmetric(vertical: 5),

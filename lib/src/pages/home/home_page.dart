@@ -6,6 +6,7 @@ import 'package:pay_lunch/src/pages/user/profile/info/user_profile_info_page.dar
 import 'package:pay_lunch/src/utils/custom_animated_bottom_bar.dart';
 
 import '../user/products/user_menu_list_page.dart';
+import '../user/chat/user_chats_page.dart';
 import '../user/mensajeusu/user_mensajeusu_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
       body: Obx(() => IndexedStack(
         index: con.indexTab.value,
         children: [
-          PruebaPage(),
+          ChatsPage(),
           UserMensajeListPage(),
           UserMenuListPage(),
           UserProfileInfoPage(),

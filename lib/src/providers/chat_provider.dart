@@ -50,24 +50,22 @@ class ChatProvider extends GetConnect {
     List<Chat> chat = Chat.fromJsonList(response.body);
     return chat;
   }
-  Future<ResponsiveApi> findById2(String id_user1, String id_user2, String id_user3, String id_user4) async{
+
+  Future<List<Chat>> findByIdUser(String id_user, String id_user1, String id_user2) async {
     Response response = await get(
-        '$url/findById2/$id_user1/$id_user2/$id_user3/$id_user4',
+        '$url/findByIdUser/$id_user/$id_user1/$id_user2',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': userSession.sessionToken ?? ''
         }
     );
-    if (response.body == null) {
-      Get.snackbar('Error', 'No se pudo actualizar la información');
-      return ResponsiveApi();
-    }
     if (response.statusCode == 401) {
-      Get.snackbar('Error', 'No estas autorizado para realizar esta petición');
-      return ResponsiveApi();
+      Get.snackbar('Peticion denegada', 'Tu usuario no tiene los permisos requeridos');
+      return [];
     }
-    ResponsiveApi responsiveApi = ResponsiveApi.fromJson(response.body);
-    return responsiveApi;
+
+    List<Chat> chat = Chat.fromJsonList(response.body);
+    return chat;
   }
 
   Future<ResponsiveApi> update(Chat chat) async{
