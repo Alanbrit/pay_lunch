@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:pay_lunch/src/models/user.dart';
@@ -12,6 +13,11 @@ User userSession = User.fromJson(GetStorage().read('user') ?? {});
 
 void main() async{
   await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Stripe.publishableKey = 'pk_test_51M8AHNLyLP3vlRqwTZ15p9GbjmEVOQ6lUnyqIZQhieRtLqCh0W4ExsE8CZtTlHA1nPCSaP6OC8NJUZuCHMOjGgkM00pe6ksINE';
+  await Stripe.instance.applySettings();
+
   runApp(const MyApp());
 }
 

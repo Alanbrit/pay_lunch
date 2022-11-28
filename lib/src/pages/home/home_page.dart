@@ -8,6 +8,7 @@ import 'package:pay_lunch/src/utils/custom_animated_bottom_bar.dart';
 import '../user/products/user_menu_list_page.dart';
 import '../user/chat/user_chats_page.dart';
 import '../user/mensajeusu/user_mensajeusu_page.dart';
+import '../user/pago/user_pago_page.dart';
 
 class HomePage extends StatelessWidget {
 
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
           UserMensajeListPage(),
           UserMenuListPage(),
           UserProfileInfoPage(),
-          PruebaPage()
+          UserPagoPage()
         ],
       )),
     );
