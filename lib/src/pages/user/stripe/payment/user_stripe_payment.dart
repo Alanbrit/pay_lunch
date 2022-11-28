@@ -5,12 +5,14 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+
 class UserStripePayment extends GetConnect{
   Map<String, dynamic>? paymentIntentData;
 
+
   Future<void> makePayment(BuildContext context, String saldo) async {
     try{
-      paymentIntentData = await createPaymentIntent(saldo, 'USD');
+      paymentIntentData = await createPaymentIntent(saldo, 'MXN');
       await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
             paymentIntentClientSecret: paymentIntentData!['client_secret'],
@@ -20,7 +22,6 @@ class UserStripePayment extends GetConnect{
             merchantDisplayName: 'PayLunch'
           )
       ).then((value) {
-
       });
       showPaymentSheet(context);
     }catch(err){
@@ -32,6 +33,7 @@ class UserStripePayment extends GetConnect{
     try{
       await Stripe.instance.presentPaymentSheet().then((value) {
         Get.snackbar('Transaccion exitosa', 'Tu pago fue procesado correctamente');
+
         paymentIntentData = null;
       }).onError((error, stackTrace){
         print('Error con la transacción: $error - $stackTrace');
